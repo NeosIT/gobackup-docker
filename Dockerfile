@@ -37,7 +37,5 @@ COPY --from=build-env /go/src/interpolator/interpolator .
 RUN mkdir /etc/gobackup
 COPY entrypoint.sh .
 
-COPY sample.yaml /etc/gobackup/config-raw.yaml
-
 CMD ["perform"]
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
