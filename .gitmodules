@@ -1,6 +1,0 @@
-[submodule "interpolator"]
-	path = interpolator
-	url = git@github.com:NeosIT/interpolator.git
-[submodule "gobackup"]
-	path = gobackup
-	url = git@github.com:NeosIT/gobackup.git
