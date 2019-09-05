@@ -11,9 +11,9 @@ interpolator /etc/gobackup/config-raw.yaml /etc/gobackup/gobackup.yaml
 
 if [ "${#}" -eq 2 ] && [ "${1}" = 'cron' ]; then
   echo "Starting periodic backups with cron expression [${2}]"
-  echo "${2} gobackup perform" > /etc/periodic/gobackup \
-  && crontab /etc/periodic/gobackup \
-  && /usr/sbin/crond -f -l 0
+  echo "${2} /usr/local/bin/gobackup perform" > /etc/cron.d/gobackup \
+  && crontab /etc/cron.d/gobackup \
+  && /usr/sbin/crond -n -x sch
 else
   echo "Executing 'gobackup perform' once"
   gobackup "$@"

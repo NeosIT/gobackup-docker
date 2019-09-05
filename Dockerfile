@@ -28,7 +28,7 @@ WORKDIR /usr/local/bin
 COPY mongodb.repo /etc/yum.repos.d
 
 RUN dnf install https://download.postgresql.org/pub/repos/yum/reporpms/F-30-x86_64/pgdg-fedora-repo-latest.noarch.rpm -y \
-    && dnf install postgresql11 mariadb redis mongodb-org-tools --refresh -y \
+    && dnf install postgresql11 mariadb redis mongodb-org-tools cronie --refresh -y \
     && dnf clean all
 
 COPY --from=build-env /go/src/gobackup/gobackup .
