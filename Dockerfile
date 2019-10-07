@@ -1,20 +1,15 @@
 FROM golang:alpine AS build-env
 RUN apk --no-cache add build-base git dep openssh-client
 
-ENV GOBACKUP_VERSION 0.8.1
+ENV GOBACKUP_VERSION 0.9.0
 ENV INTERPOLATOR_VERSION 0.9.0
 
-RUN git clone https://github.com/huacnlee/gobackup.git ${GOPATH}/src/gobackup
-COPY gobackup-s3-support-path-style.patch ${GOPATH}/src/gobackup
+RUN git clone https://github.com/NeosIT/gobackup.git ${GOPATH}/src/gobackup
 RUN cd ${GOPATH}/src/gobackup \
     && git checkout ${GOBACKUP_VERSION} \
-    && cd storage \
-    && patch < ../gobackup-s3-support-path-style.patch \
-    && cd .. \
     && dep ensure -v \
     && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gobackup \
     && strip gobackup
-
 
 RUN git clone https://github.com/NeosIT/interpolator.git ${GOPATH}/src/interpolator \
     && cd ${GOPATH}/src/interpolator \
@@ -23,8 +18,7 @@ RUN git clone https://github.com/NeosIT/interpolator.git ${GOPATH}/src/interpola
     && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o interpolator \
     && strip interpolator
 
-# Alpine doesn't work, archives aren't crated. Probably due to musl libc
-#FROM centos:7
+# Alpine doesn't work, archives aren't created. Probably due to musl libc
 FROM fedora:30
 WORKDIR /usr/local/bin
 
