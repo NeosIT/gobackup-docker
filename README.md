@@ -23,10 +23,10 @@ docker build . -t neosit/gobackup:latest
 ### Examples
 Single backup:
 ```bash
-docker run -v /patch/to/my-gobackup-config.yaml:/etc/gobackup/config-raw.yaml neosit/gobackup
+docker run -v /path/to/my-gobackup-config.yaml:/etc/gobackup/config-raw.yaml neosit/gobackup
 ``` 
 
 Periodic backup every day at midnight:
 ```bash
-docker run -v /patch/to/my-gobackup-config.yaml:/etc/gobackup/config-raw.yaml neosit/gobackup cron "0 0 * * *"
+docker run -v /path/to/my-gobackup-config.yaml:/etc/gobackup/config-raw.yaml neosit/gobackup cron "0 0 * * *"
 ```
