@@ -1,7 +1,7 @@
 FROM golang:alpine AS build-env
 RUN apk --no-cache add build-base git dep openssh-client
 
-ENV GOBACKUP_VERSION 0.9.0
+ENV GOBACKUP_VERSION 0.10.1
 ENV INTERPOLATOR_VERSION 0.9.0
 
 RUN git clone https://github.com/NeosIT/gobackup.git ${GOPATH}/src/gobackup
