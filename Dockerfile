@@ -1,7 +1,7 @@
 FROM golang:alpine AS build-env
 RUN apk --no-cache add build-base git dep openssh-client
 
-ENV GOBACKUP_VERSION 0.10.1
+ENV GOBACKUP_VERSION 0.11.0
 ENV INTERPOLATOR_VERSION 0.9.0
 
 RUN git clone https://github.com/NeosIT/gobackup.git ${GOPATH}/src/gobackup
@@ -19,13 +19,13 @@ RUN git clone https://github.com/NeosIT/interpolator.git ${GOPATH}/src/interpola
     && strip interpolator
 
 # Alpine doesn't work, archives aren't created. Probably due to musl libc
-FROM fedora:30
+FROM fedora:31
 WORKDIR /usr/local/bin
 
 COPY mongodb.repo /etc/yum.repos.d
 
-RUN dnf install https://download.postgresql.org/pub/repos/yum/reporpms/F-30-x86_64/pgdg-fedora-repo-latest.noarch.rpm -y \
-    && dnf install postgresql11 mariadb redis mongodb-org-tools cronie procps-ng vim htop strace --refresh -y \
+RUN dnf install https://download.postgresql.org/pub/repos/yum/reporpms/F-31-x86_64/pgdg-fedora-repo-latest.noarch.rpm -y \
+    && dnf install postgresql12 mariadb redis mongodb-org-tools cronie procps-ng vim htop strace --refresh -y \
     && dnf clean all
 
 COPY --from=build-env /go/src/gobackup/gobackup .
