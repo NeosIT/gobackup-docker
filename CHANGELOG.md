@@ -2,7 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+the project does __not__ use [Semantic Versioning](https://semver.org/spec/v2.0.0.html) as it would conflict with the versioning of `gobackup`.
+
+## [0.20220713.0] - 2022-07-13
+### Added
+- GitHub Actions workflow has been added
+- On a tag push for this repository, a Docker image will be created and pushed to https://hub.docker.com/repository/docker/dreitier/gobackup.
+
+### Changed
+- `gobackup` base image is now based upon Fedora 36 and the latest MongoDB utilities.
+- Instead of building `gobackup` and `interpolator` on our own, we are using the existing artifacts (binary releases for gobackup, binary from the interpolator Docker image).
 
 ## [0.13.0] - 2019-11-12
 - bumped gobackup to 0.11.0
