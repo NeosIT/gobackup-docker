@@ -24,6 +24,8 @@ jobs:
         GOBACKUP_DIST_TAG=${USED_TAG}
         GOBACKUP_DIST_FLAVOUR=${USED_FLAVOUR:-huacnlee}
 
+        echo "Used repository/version: ${GOBACKUP_DIST_FLAVOUR}/gobackup:${GOBACKUP_DIST_TAG}"
+
         echo ::set-output name=GOBACKUP_DIST_FLAVOUR::$(echo GOBACKUP_DIST_TAG)
         echo ::set-output name=GOBACKUP_DIST_FLAVOUR::$(echo GOBACKUP_DIST_FLAVOUR)
 
