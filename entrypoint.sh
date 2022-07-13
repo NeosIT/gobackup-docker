@@ -14,7 +14,7 @@ if [ "${#}" -eq 2 ] && [ "${1}" = 'cron' ]; then
   # Crontabs in /etc/cron.d use a different syntax than user crontabs, see https://stackoverflow.com/a/42719311
   cat <<EOF >> /var/spool/cron/root
 SHELL=/bin/bash
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/app
 MAILTO=
 ${2} gobackup perform
 EOF

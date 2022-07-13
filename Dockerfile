@@ -1,38 +1,29 @@
-FROM golang:alpine AS build-env
-RUN apk --no-cache add build-base git dep openssh-client
+# interpolator image
+ARG INTERPOLATOR_TAG=1.0.0
+FROM dreitier/interpolator:${INTERPOLATOR_TAG} AS interpolator-bin
 
-ENV GOBACKUP_VERSION 0.11.0
-ENV INTERPOLATOR_VERSION 0.9.0
-
-RUN git clone https://github.com/NeosIT/gobackup.git ${GOPATH}/src/gobackup
-RUN cd ${GOPATH}/src/gobackup \
-    && git checkout ${GOBACKUP_VERSION} \
-    && dep ensure -v \
-    && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gobackup \
-    && strip gobackup
-
-RUN git clone https://github.com/NeosIT/interpolator.git ${GOPATH}/src/interpolator \
-    && cd ${GOPATH}/src/interpolator \
-    && git checkout ${INTERPOLATOR_VERSION} \
-    && dep ensure -v \
-    && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o interpolator \
-    && strip interpolator
+FROM alpine:latest AS gobackup-bin
+RUN apk --no-cache add ca-certificates curl
+ARG GOBACKUP_DIST_TAG=v1.0.1
+ARG GOBACKUP_DIST_FLAVOUR=huacnlee
+WORKDIR /app
+RUN curl -L -o gobackup.tar.gz https://github.com/${GOBACKUP_DIST_FLAVOUR}/gobackup/releases/download/${GOBACKUP_DIST_TAG}/gobackup-linux-amd64.tar.gz && tar -xvf gobackup.tar.gz
 
 # Alpine doesn't work, archives aren't created. Probably due to musl libc
-FROM fedora:31
-WORKDIR /usr/local/bin
+FROM fedora:36
+WORKDIR /app
 
 COPY mongodb.repo /etc/yum.repos.d
 
-RUN dnf install https://download.postgresql.org/pub/repos/yum/reporpms/F-31-x86_64/pgdg-fedora-repo-latest.noarch.rpm -y \
-    && dnf install postgresql12 mariadb redis mongodb-org-tools cronie procps-ng vim htop strace --refresh -y \
+RUN dnf install https://download.postgresql.org/pub/repos/yum/reporpms/F-36-x86_64/pgdg-fedora-repo-latest.noarch.rpm -y \
+    && dnf install postgresql12 mariadb redis mongodb-org-tools python cronie procps-ng vim htop strace --refresh -y \
     && dnf clean all
 
-COPY --from=build-env /go/src/gobackup/gobackup .
-COPY --from=build-env /go/src/interpolator/interpolator .
+COPY --from=interpolator-bin /app/interpolator .
+COPY --from=gobackup-bin /app/gobackup .
 
 RUN mkdir /etc/gobackup
 COPY entrypoint.sh .
 
 CMD ["perform"]
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
