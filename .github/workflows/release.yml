@@ -26,7 +26,7 @@ jobs:
         GOBACKUP_DIST_FLAVOUR=${USED_FLAVOUR:-huacnlee}
         echo "Used repository/version: $GOBACKUP_DIST_FLAVOUR/gobackup:$GOBACKUP_DIST_TAG"
 
-        echo ::set-output name=GOBACKUP_DIST_FLAVOUR::$(echo GOBACKUP_DIST_TAG)
+        echo ::set-output name=GOBACKUP_DIST_TAG::$(echo GOBACKUP_DIST_TAG)
         echo ::set-output name=GOBACKUP_DIST_FLAVOUR::$(echo GOBACKUP_DIST_FLAVOUR)
 
     - name: Publish to Registry
@@ -39,5 +39,5 @@ jobs:
         name: dreitier/gobackup
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        tags: "${{ env.GOBACKUP_DIST_FLAVOUR }}-${{ env.GOBACKUP_DIST_TAG }}"
+        tags: "${{ env.GOBACKUP_DIST_TAG }}-${{ env.GOBACKUP_DIST_FLAVOUR }}"
         buildargs: GOBACKUP_DIST_TAG,GOBACKUP_DIST_FLAVOUR
