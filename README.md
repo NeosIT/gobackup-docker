@@ -1,4 +1,4 @@
-# GoBackup with Interpolator
+# gobackup for Kubernetes
 This repository wraps [gobackup](https://github.com/huacnlee/gobackup) (and [dreitier's gobackup flavour](https://github.com/dreitier/gobackup)) and [interpolator](https://github.com/dreitier/interpolator) in a single, usable Docker image. 
 
 ## Description
