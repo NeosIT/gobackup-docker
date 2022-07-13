@@ -29,13 +29,6 @@ jobs:
         echo ::set-output name=GOBACKUP_DIST_TAG::$GOBACKUP_DIST_TAG
         echo ::set-output name=GOBACKUP_DIST_FLAVOUR::$GOBACKUP_DIST_FLAVOUR
 
-    - name: Debug
-      shell: bash
-      run: |
-        echo ${{ steps.git_info.outputs.GOBACKUP_DIST_TAG }}
-        echo "---"
-        echo ${{ steps.git_info.outputs.GOBACKUP_DIST_FLAVOUR }}
-
     - name: Publish to Registry
       id: publish_to_registry
       uses: elgohr/Publish-Docker-Github-Action@master
