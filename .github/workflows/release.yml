@@ -37,5 +37,5 @@ jobs:
         name: dreitier/gobackup
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        tags: ${{ GOBACKUP_DIST_FLAVOUR }}-${{ GOBACKUP_DIST_TAG }}
+        tags: "${{ GOBACKUP_DIST_FLAVOUR }}-${{ GOBACKUP_DIST_TAG }}"
         buildargs: GOBACKUP_DIST_TAG,GOBACKUP_DIST_FLAVOUR
