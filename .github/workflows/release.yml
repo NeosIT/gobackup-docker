@@ -19,8 +19,8 @@ jobs:
         # propagate to GH Actions
         echo ::set-output name=GIT_TAG::$GIT_TAG
         # extract tag from ${tag}(-${repo})?
-        USED_TAG=${FULL_GIT_TAG%%-} 
-        USED_FLAVOUR=${FULL_GIT_TAG#-}
+        USED_TAG=${FULL_GIT_TAG#*-} 
+        USED_FLAVOUR=${GIT_TAG%"USED_TAG"}
         GOBACKUP_DIST_TAG=${USED_TAG}
         GOBACKUP_DIST_FLAVOUR=${USED_FLAVOUR:-huacnlee}
 
