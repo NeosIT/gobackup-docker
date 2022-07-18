@@ -7,7 +7,7 @@ if [ ! -f /etc/gobackup/config-raw.yaml ]; then
  exit 1
 fi
 
-interpolator /etc/gobackup/config-raw.yaml /etc/gobackup/gobackup.yaml
+/app/interpolator /etc/gobackup/config-raw.yaml /etc/gobackup/gobackup.yaml
 
 if [ "${#}" -eq 2 ] && [ "${1}" = 'cron' ]; then
   echo "Starting periodic backups with cron expression [${2}]"
@@ -16,12 +16,12 @@ if [ "${#}" -eq 2 ] && [ "${1}" = 'cron' ]; then
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/app
 MAILTO=
-${2} gobackup perform
+${2} /app/gobackup perform
 EOF
 
   crontab /var/spool/cron/root
   /usr/sbin/crond -n -x sch
 else
   echo "Executing 'gobackup perform' once"
-  gobackup "$@"
+  /app/gobackup "$@"
 fi
