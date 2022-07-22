@@ -36,6 +36,11 @@ docker push v1.0.1 origin
 
 #### Create a release based upon dreitier's repository
 ```bash
+docker tag 20220722-dreitier
+docker push 20220722-dreitier
+
+# OR
+
 docker tag v1.0.1_custom_pr-dreitier
 docker push v1.0.1_custom_pr-dreitier origin
 ```
