@@ -18,8 +18,15 @@ jobs:
         GIT_TAG=${GITHUB_REF#refs/*/}
         # propagate to GH Actions
         echo ::set-output name=GIT_TAG::$GIT_TAG
-        # extract tag from ${tag}(-${repo})?
-        USED_FLAVOUR=${FULL_GIT_TAG#*-} 
+
+        # extract repo/flavour name from ${tag}(-${repo})?
+        USED_FLAVOUR=$(echo $GIT_TAG | rev | cut -d "-" -f1 | rev)
+
+        # if flavour or repo is equal to the tag, no flavour is set
+        if [ "$USED_FLAVOUR" = "$GIT_TAG" ]; then
+            USED_FLAVOUR=""
+        fi
+
         USED_TAG=${GIT_TAG%"-$USED_FLAVOUR"}
 
         GOBACKUP_DIST_TAG=${USED_TAG}
